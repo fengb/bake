@@ -13,7 +13,7 @@ taskfile() {
 
 
 taskname() {
-  echo $1 | sed "s;^$taskdir/;;"
+  sed "s;^$taskdir/;;"
 }
 
 
@@ -23,8 +23,10 @@ desc() {
 
 
 help() {
-  find $taskdir -type f | while read file; do
-    echo `taskname $file` '#' `desc "$file"`
+  tasks=`find -X $taskdir -type f | taskname`
+  maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`
+  for task in $tasks; do
+    printf "%-${maxlength}s # %s\n" "$task" "`desc "$task"`"
   done
   exit
 }
@@ -38,7 +40,7 @@ fi
 
 file=`taskfile $1`
 if [ ! -f $file ]; then
-  echo "Task '$1' not found." >&1
+  echo "Task '$1' not found." >&2
   help
   exit 1
 elif [ ! -x $file ]; then

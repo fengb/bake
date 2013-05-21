@@ -3,11 +3,11 @@ Feature: command-line help
   I want to obtain simple descriptions
 
   Scenario: simple file
-    Given the Bakefile "task" with contents "### Something"
+    Given the Bakefile "task" with contents "### Some feature"
      When I execute "bake"
      Then I see on stdout:
           """
-          task # Something
+          task # Some feature
           """
 
   Scenario: multi-line file
@@ -33,6 +33,6 @@ Feature: command-line help
      When I execute "bake"
      Then I see on stdout:
           """
-          task # First
+          task  # First
           task2 # Second
           """
