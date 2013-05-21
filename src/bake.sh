@@ -4,7 +4,7 @@
 
 
 export BASEDIR=$PWD
-taskdir=tasks
+taskdir=Bakefile
 
 
 taskfile() {

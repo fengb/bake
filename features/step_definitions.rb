@@ -2,6 +2,7 @@ require 'fileutils'
 
 
 def bakefile(path, contents)
+  path = File.join("Bakefile", path)
   FileUtils.mkdir_p File.dirname(path)
   File.open(path, 'w') do |file|
     file.write(contents)
