@@ -11,7 +11,7 @@ Feature: command-line help
           """
 
   Scenario: file with no description
-    Given the file "Bakefile/task" with contents "tough noodles"
+    Given the file "Bakefile/task"
      When I execute "bake"
      Then I see on stdout:
           """
@@ -43,4 +43,14 @@ Feature: command-line help
           """
           task
           task2 # Second
+          """
+
+  Scenario: tasks located above the current directory
+    Given the file "Bakefile/task"
+      And the directory "lib"
+     When I am in the "lib" directory
+      And I execute "bake"
+     Then I see on stdout:
+          """
+          task
           """

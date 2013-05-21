@@ -3,7 +3,6 @@
 # Bash Make  :P
 
 
-export BASEDIR=$PWD
 taskdir=Bakefile
 
 
@@ -35,6 +34,11 @@ help() {
   done
   exit
 }
+
+
+while [ ! -d $taskdir ]; do
+  cd ..
+done
 
 
 if [ -z $1 ]; then
