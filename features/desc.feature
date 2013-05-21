@@ -3,7 +3,7 @@ Feature: command-line help
   I want to obtain simple descriptions
 
   Scenario: simple file
-    Given the Bakefile "task" with contents "### Some feature"
+    Given the file "Bakefile/task" with contents "### Some feature"
      When I execute "bake"
      Then I see on stdout:
           """
@@ -11,7 +11,7 @@ Feature: command-line help
           """
 
   Scenario: file with no description
-    Given the Bakefile "task" with contents "tough noodles"
+    Given the file "Bakefile/task" with contents "tough noodles"
      When I execute "bake"
      Then I see on stdout:
           """
@@ -19,7 +19,7 @@ Feature: command-line help
           """
 
   Scenario: multi-line file
-    Given the Bakefile "task" with contents:
+    Given the file "Bakefile/task" with contents:
           """
           #!/bin/bash
 
@@ -34,10 +34,10 @@ Feature: command-line help
           """
 
   Scenario: multiple files
-    Given the following Bakefiles:
-          | path  | contents   |
-          | task  | No comment |
-          | task2 | ### Second |
+    Given the following files:
+          | path           | contents   |
+          | Bakefile/task  | No comment |
+          | Bakefile/task2 | ### Second |
      When I execute "bake"
      Then I see on stdout:
           """

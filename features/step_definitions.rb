@@ -2,7 +2,6 @@ require 'fileutils'
 
 
 def bakefile(path, contents)
-  path = File.join("Bakefile", path)
   FileUtils.mkdir_p File.dirname(path)
   File.open(path, 'w') do |file|
     file.write(contents)
@@ -10,15 +9,15 @@ def bakefile(path, contents)
 end
 
 
-Given 'the Bakefile "$path" with contents "$contents"' do |path, contents|
+Given 'the file "$path" with contents "$contents"' do |path, contents|
   bakefile(path, contents)
 end
 
-Given 'the Bakefile "$path" with contents:' do |path, contents|
+Given 'the file "$path" with contents:' do |path, contents|
   bakefile(path, contents)
 end
 
-Given 'the following Bakefiles:' do |table|
+Given 'the following files:' do |table|
   table.rows.each do |(path, contents)|
     bakefile(path, contents)
   end
