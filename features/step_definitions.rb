@@ -36,10 +36,10 @@ When 'I am in the "$dir" directory' do |dir|
 end
 
 When 'I execute "bake$args"' do |args|
-  cmdline "#{PROJ_DIR}/src/bake.sh #{args}"
+  cmd "#{PROJ_DIR}/src/bake.sh #{args}"
 end
 
 Then 'I see on stdout:' do |string|
-  expect(last_cmdline.stderr.chomp) == ''
-  expect(last_cmdline.stdout.chomp) == string
+  expect(last_cmd.stderr.chomp) == ''
+  expect(last_cmd.stdout.chomp) == string
 end
