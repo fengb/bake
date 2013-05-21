@@ -23,7 +23,7 @@ desc() {
 
 
 help() {
-  tasks=`find -X $taskdir -type f | taskname`
+  tasks=`find $taskdir -type f | taskname`
   maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`
   for task in $tasks; do
     printf "%-${maxlength}s # %s\n" "$task" "`desc "$task"`"
