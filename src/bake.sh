@@ -17,7 +17,14 @@ taskname() {
 
 
 desc() {
-  sed -e '/###/!d' -e 's/^### *//' `taskfile $1`
+  file=`taskfile $task`
+  if [ -L "$file" ]; then
+    file $file
+  elif [ ! -x "$file" ]; then
+    echo "!! not executable"
+  else
+    sed -e '/###/!d' -e 's/^### */# /' "$file"
+  fi
 }
 
 
@@ -27,14 +34,12 @@ executable() {
 
 
 help() {
-  tasks=`find $taskdir -type f | sort | taskname`
+  tasks=`find $taskdir -type f -or -type l | sort | taskname`
   maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`
   for task in $tasks; do
     desc=`desc "$task"`
-    if ! executable $task; then
-      printf "%-${maxlength}s !! not executable" "$task"
-    elif [ -n "$desc" ]; then
-      printf "%-${maxlength}s # %s" "$task" "$desc"
+    if [ -n "$desc" ]; then
+      printf "%-${maxlength}s %s" "$task" "$desc"
     else
       echo "$task"
     fi
@@ -55,11 +60,11 @@ fi
 
 
 file=`taskfile $1`
-if [ ! -f $file ]; then
+if [ ! -f "$file" ]; then
   echo "Task '$1' not found." >&2
   help
   exit 1
-elif ! executable $1; then
+elif [ ! -x "$file" ]; then
   echo "Task '$1' not executable." >&2
   exit 1
 fi
