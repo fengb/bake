@@ -36,11 +36,11 @@ Feature: command-line help
   Scenario: multiple files
     Given the following Bakefiles:
           | path  | contents   |
-          | task  | ### First  |
+          | task  | No comment |
           | task2 | ### Second |
      When I execute "bake"
      Then I see on stdout:
           """
-          task  # First
+          task
           task2 # Second
           """
