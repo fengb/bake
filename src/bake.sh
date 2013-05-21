@@ -3,7 +3,6 @@
 # Bash Make  :P
 
 
-cd "`dirname "${BASH_SOURCE[0]}"`"
 export BASEDIR=$PWD
 taskdir=tasks
 
