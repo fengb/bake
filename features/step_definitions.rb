@@ -40,6 +40,6 @@ When 'I execute "bake$args"' do |args|
 end
 
 Then 'I see on stdout:' do |string|
-  assert_equal '', last_cmdline.stderr.chomp
-  assert_equal string, last_cmdline.stdout.chomp
+  expect(last_cmdline.stderr.chomp) == ''
+  expect(last_cmdline.stdout.chomp) == string
 end

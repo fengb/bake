@@ -32,7 +32,25 @@ class CommandLine
 end
 
 World(CommandLine::CukeHelpers)
-World(Test::Unit::Assertions)
+
+class Expect
+  include Test::Unit::Assertions
+
+  def initialize(obj)
+    @obj = obj
+  end
+
+  def ==(other)
+    assert_equal(other, @obj)
+  end
+
+  module CukeHelpers
+    def expect(*args)
+      Expect.new(*args)
+    end
+  end
+end
+World(Expect::CukeHelpers)
 
 
 PROJ_DIR = Dir.pwd
