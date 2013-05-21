@@ -5,10 +5,25 @@ Feature: command-line help
   Scenario: simple file
     Given the Bakefile "tasks/task" with contents "### Something"
      When I execute "bake"
-     Then I see on stdout
-     """
-     task # Something
-     """
+     Then I see on stdout:
+          """
+          task # Something
+          """
+
+  Scenario: multi-line file
+    Given the Bakefile "tasks/task" with contents:
+          """
+          #!/bin/bash
+
+          ### Cleans stuff
+
+          rm -rf /
+          """
+     When I execute "bake"
+     Then I see on stdout:
+          """
+          task # Cleans stuff
+          """
 
   Scenario: multiple files
     Given the following Bakefiles:
@@ -16,8 +31,8 @@ Feature: command-line help
           | tasks/task  | ### First  |
           | tasks/task2 | ### Second |
      When I execute "bake"
-     Then I see on stdout
-     """
-     task # First
-     task2 # Second
-     """
+     Then I see on stdout:
+          """
+          task # First
+          task2 # Second
+          """
