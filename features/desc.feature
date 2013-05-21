@@ -10,6 +10,14 @@ Feature: command-line help
           task # Some feature
           """
 
+  Scenario: file with no description
+    Given the Bakefile "task" with contents "tough noodles"
+     When I execute "bake"
+     Then I see on stdout:
+          """
+          task
+          """
+
   Scenario: multi-line file
     Given the Bakefile "task" with contents:
           """

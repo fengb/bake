@@ -26,7 +26,13 @@ help() {
   tasks=`find $taskdir -type f | taskname`
   maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`
   for task in $tasks; do
-    printf "%-${maxlength}s # %s\n" "$task" "`desc "$task"`"
+    printf "%-${maxlength}s" "$task"
+    desc=`desc "$task"`
+    if [ -n "$desc" ]; then
+      echo " # $desc"
+    else
+      echo
+    fi
   done
   exit
 }
