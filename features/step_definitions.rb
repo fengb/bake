@@ -36,7 +36,7 @@ When 'I am in the "$dir" directory' do |dir|
 end
 
 When 'I execute "bake$args"' do |args|
-  cmd "#{PROJ_DIR}/src/bake.sh #{args}"
+  cmd "#{PROJ_DIR}/bin/bake #{args}"
 end
 
 Then 'I see on stdout:' do |string|
