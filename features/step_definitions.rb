@@ -8,6 +8,12 @@ Given 'the Bakefile "$path" with contents "$contents"' do |path, contents|
   end
 end
 
+Given 'the following Bakefiles:' do |table|
+  table.rows.each do |(path, contents)|
+    step %Q{the Bakefile "#{path}" with contents "#{contents}"}
+  end
+end
+
 When 'I execute "bake$args"' do |args|
   cmdline "#{PROJ_DIR}/src/bake.sh #{args}"
 end

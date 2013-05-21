@@ -9,3 +9,15 @@ Feature: command-line help
      """
      task # Something
      """
+
+  Scenario: multiple files
+    Given the following Bakefiles:
+          | path        | contents   |
+          | tasks/task  | ### First  |
+          | tasks/task2 | ### Second |
+     When I execute "bake"
+     Then I see on stdout
+     """
+     task # First
+     task2 # Second
+     """
