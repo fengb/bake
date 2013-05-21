@@ -1,0 +1,4 @@
+language: ruby
+script: cucumber
+rvm:
+- 1.9.3
