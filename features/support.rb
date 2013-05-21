@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'open3'
+require 'test/unit/assertions'
 
 
 class CommandLine
@@ -30,7 +31,8 @@ class CommandLine
   end
 end
 
-include CommandLine::CukeHelpers
+World(CommandLine::CukeHelpers)
+World(Test::Unit::Assertions)
 
 
 PROJ_DIR = Dir.pwd

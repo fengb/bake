@@ -29,6 +29,6 @@ When 'I execute "bake$args"' do |args|
 end
 
 Then 'I see on stdout:' do |string|
-  last_cmdline.stderr.chomp.should == ''
-  last_cmdline.stdout.chomp.should == string
+  assert last_cmdline.stderr.chomp == ''
+  assert last_cmdline.stdout.chomp == string
 end
