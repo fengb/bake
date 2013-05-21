@@ -1,11 +1,15 @@
 require 'fileutils'
 
 
-def file(path, contents='')
+def file(path, options={})
+  contents = options.delete(:contents) || ''
+  executable = options.delete(:executable) || false
+
   FileUtils.mkdir_p File.dirname(path)
   File.open(path, 'w') do |file|
     file.write(contents)
   end
+  FileUtils.chmod(0700, path) if executable
 end
 
 
@@ -17,17 +21,21 @@ Given /^the file "([^ ]*)"$/ do |file|
   file(file)
 end
 
-Given 'the file "$file" with contents "$contents"' do |file, contents|
-  file(file, contents)
+Given /^the task "([^ ]*)"$/ do |file|
+  file(file, executable: true)
 end
 
-Given 'the file "$file" with contents:' do |file, contents|
-  file(file, contents)
+Given 'the task "$task" with contents "$contents"' do |task, contents|
+  file(task, executable: true, contents: contents)
 end
 
-Given 'the following files:' do |table|
+Given 'the task "$task" with contents:' do |task, contents|
+  file(task, executable: true, contents: contents)
+end
+
+Given 'the following tasks:' do |table|
   table.rows.each do |(file, contents)|
-    file(file, contents)
+    file(file, executable: true, contents: contents)
   end
 end
 

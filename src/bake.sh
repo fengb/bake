@@ -21,12 +21,19 @@ desc() {
 }
 
 
+executable() {
+  [ -x `taskfile $1` ]
+}
+
+
 help() {
   tasks=`find $taskdir -type f | sort | taskname`
   maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`
   for task in $tasks; do
     desc=`desc "$task"`
-    if [ -n "$desc" ]; then
+    if ! executable $task; then
+      printf "%-${maxlength}s !! not executable" "$task"
+    elif [ -n "$desc" ]; then
       printf "%-${maxlength}s # %s" "$task" "$desc"
     else
       echo "$task"
@@ -52,7 +59,7 @@ if [ ! -f $file ]; then
   echo "Task '$1' not found." >&2
   help
   exit 1
-elif [ ! -x $file ]; then
+elif ! executable $1; then
   echo "Task '$1' not executable." >&2
   exit 1
 fi
