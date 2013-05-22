@@ -35,3 +35,8 @@ Feature: running tasks
           """
      When I execute "bake captor"
      Then the capture task should have executed
+
+  Scenario: fuzzy match
+    Given the capture task "Bakefile/we/need/to/go/deeper"
+     When I execute "bake deeper"
+     Then the capture task should have executed

@@ -7,11 +7,12 @@ taskdir=Bakefile
 
 
 taskfile() {
-  file=`sed -e "s;^$taskdir/;;" -e "s;^;$taskdir/;;" <<<$1`
-  if [ -e "$file" ]; then
-    echo "$file"
+  if [ -e "$taskdir/$1" ]; then
+    echo "$taskdir/$1"
+  elif [[ "$1" == */* ]]; then
+    echo "$taskdir/$1".*
   else
-    echo "$file".*
+    find $taskdir -name "$1" -or -name "$1.*"
   fi
 }
 
