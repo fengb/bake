@@ -21,8 +21,12 @@ Given /^the file "([^ ]*)"$/ do |file|
   file(file)
 end
 
-Given /^the task "([^ ]*)"$/ do |file|
-  file(file, executable: true, contents: "#!/bin/bash
+Given /^the task "([^ ]*)"$/ do |task|
+  file(task, executable: true)
+end
+
+Given 'the capture task "$task"' do |task|
+  file(task, executable: true, contents: "#!/bin/bash
                                           echo 'Work completed!' $@")
 end
 
@@ -63,10 +67,10 @@ Then 'I get the error:' do |string|
   expect(last_cmd.exitstatus) != 0
 end
 
-Then 'the task should have executed' do
+Then 'the capture task should have executed' do
   expect_output('Work completed!')
 end
 
-Then 'the task should have executed with arguments "$args"' do |args|
+Then 'the capture task should have executed with arguments "$args"' do |args|
   expect_output("Work completed! #{args}")
 end

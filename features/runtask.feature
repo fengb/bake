@@ -3,14 +3,14 @@ Feature: running tasks
   I want to execute commands
 
   Scenario: basic execution
-    Given the task "Bakefile/task"
+    Given the capture task "Bakefile/task"
      When I execute "bake task"
-     Then the task should have executed
+     Then the capture task should have executed
 
   Scenario: execution with arguments
-    Given the task "Bakefile/task"
+    Given the capture task "Bakefile/task"
      When I execute "bake task more work?"
-     Then the task should have executed with arguments "more work?"
+     Then the capture task should have executed with arguments "more work?"
 
   Scenario: task is nonexistent
      When I execute "bake nonexistent"
@@ -26,3 +26,13 @@ Feature: running tasks
           """
           -bake: file: not executable
           """
+
+  Scenario: bakeception
+    Given the capture task "Bakefile/captor"
+      And the task "Bakefile/initiator" with contents:
+          """
+          #!/bin/bash
+          bake captor
+          """
+     When I execute "bake captor"
+     Then the capture task should have executed
