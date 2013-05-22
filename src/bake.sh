@@ -31,11 +31,6 @@ desc() {
 }
 
 
-executable() {
-  [ -x `taskfile $1` ]
-}
-
-
 help() {
   tasks=`find $taskdir -type f -or -type l | sort | taskname`
   maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`

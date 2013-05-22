@@ -48,6 +48,7 @@ When 'I execute "bake$args"' do |args|
 end
 
 Then 'I see on stdout:' do |string|
+  expect(last_cmd.exitstatus) == 0
   expect(last_cmd.stderr.chomp) == ''
   expect(last_cmd.stdout.chomp) == string
 end
