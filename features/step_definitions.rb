@@ -49,7 +49,7 @@ When 'I am in the "$dir" directory' do |dir|
 end
 
 When 'I execute "bake$args"' do |args|
-  cmd "#{PROJ_DIR}/bin/bake #{args}"
+  cmd "#{PROJ_DIR}/#{BAKE_EXEC} #{args}"
 end
 
 def expect_output(string)

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+bake build
+cucumber BAKE_EXEC=dist/bake
