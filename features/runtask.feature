@@ -5,7 +5,7 @@ Feature: running tasks
   Scenario: basic execution
     Given the task "Bakefile/task"
      When I execute "bake task"
-     Then I see on the output "Baking 'Bakefile/task'"
+     Then I see on the output "Baking 'task'"
 
   Scenario: captured execution
     Given the capture task "Bakefile/task"

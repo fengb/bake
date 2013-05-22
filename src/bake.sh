@@ -72,5 +72,5 @@ fi
 
 
 shift
-echo Baking "'$file'"
+echo Baking "'`taskname <<<$file`'"
 BAKE="$0" "$file" $@
