@@ -36,7 +36,7 @@ Feature: running tasks
       And the task "Bakefile/initiator" with contents:
           """
           #!/bin/bash
-          bake captor
+          $BAKE captor
           """
      When I execute "bake initiator"
      Then the capture task should have executed

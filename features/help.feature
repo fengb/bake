@@ -39,8 +39,8 @@ Feature: command-line help
           """
           #!/bin/bash
 
-          bake pie
-          bake cake
+          $BAKE pie
+          $BAKE cake
           """
      When I execute "bake"
      Then I see on the output "task -> pie cake"
