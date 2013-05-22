@@ -58,12 +58,16 @@ def expect_output(string)
   expect(last_cmd.exitstatus) == 0
 end
 
-Then 'I see on output:' do |string|
-  expect_output(string)
+Then 'I see on the output "$output"' do |output|
+  expect_output(output)
 end
 
-Then 'I get the error:' do |string|
-  expect(last_cmd.stderr.chomp) == string
+Then 'I see on the output:' do |output|
+  expect_output(output)
+end
+
+Then 'I get the error "$error"' do |error|
+  expect(last_cmd.stderr.chomp) == error
   expect(last_cmd.exitstatus) != 0
 end
 

@@ -14,18 +14,12 @@ Feature: running tasks
 
   Scenario: task is nonexistent
      When I execute "bake nonexistent"
-     Then I get the error:
-          """
-          -bake: nonexistent: does not exist
-          """
+     Then I get the error "-bake: nonexistent: does not exist"
 
   Scenario: attempted execution of non executable
     Given the file "Bakefile/file"
      When I execute "bake file"
-     Then I get the error:
-          """
-          -bake: file: not executable
-          """
+     Then I get the error "-bake: file: not executable"
 
   Scenario: bakeception
     Given the capture task "Bakefile/captor"
