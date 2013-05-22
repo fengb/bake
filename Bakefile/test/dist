@@ -2,4 +2,4 @@
 
 
 $BAKE build
-cucumber BAKE_EXEC=dist/bake
+bundle exec cucumber BAKE_EXEC=dist/bake
