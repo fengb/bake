@@ -3,6 +3,11 @@ Feature: running tasks
   I want to execute commands
 
   Scenario: basic execution
+    Given the task "Bakefile/task"
+     When I execute "bake task"
+     Then I see on the output "Baking 'Bakefile/task'"
+
+  Scenario: captured execution
     Given the capture task "Bakefile/task"
      When I execute "bake task"
      Then the capture task should have executed

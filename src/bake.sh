@@ -72,4 +72,5 @@ fi
 
 
 shift
+echo Baking "'$file'"
 $file $@

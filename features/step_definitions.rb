@@ -71,10 +71,17 @@ Then 'I get the error "$error"' do |error|
   expect(last_cmd.exitstatus) != 0
 end
 
+def expect_capture(capture)
+  expect(last_cmd.stderr.chomp) == ''
+  expect(last_cmd.stdout.lines.to_a[0]) =~ /^Baking '.*'$/
+  expect(last_cmd.stdout.lines.to_a[1].chomp) == capture
+  expect(last_cmd.exitstatus) == 0
+end
+
 Then 'the capture task should have executed' do
-  expect_output('Work completed!')
+  expect_capture('Work completed!')
 end
 
 Then 'the capture task should have executed with arguments "$args"' do |args|
-  expect_output("Work completed! #{args}")
+  expect_capture("Work completed! #{args}")
 end
