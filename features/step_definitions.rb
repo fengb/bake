@@ -58,6 +58,11 @@ Then 'I see on stdout:' do |string|
   expect_stdout(string)
 end
 
+Then 'I get the error:' do |string|
+  expect(last_cmd.exitstatus) != 0
+  expect(last_cmd.stderr.chomp) == string
+end
+
 Then 'the task should have executed' do
   expect_stdout('Work completed!')
 end

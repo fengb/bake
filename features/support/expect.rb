@@ -12,6 +12,10 @@ class Expect
     assert_equal(other, @obj)
   end
 
+  def !=(other)
+    assert_not_equal(other, @obj)
+  end
+
   module Helper
     def expect(*args)
       Expect.new(*args)

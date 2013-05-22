@@ -61,7 +61,7 @@ if [ ! -f "$file" ]; then
   help
   exit 1
 elif [ ! -x "$file" ]; then
-  echo "Task '$1' not executable." >&2
+  echo "-bake: $1: not executable" >&2
   exit 1
 fi
 

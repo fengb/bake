@@ -11,3 +11,11 @@ Feature: running tasks
     Given the task "Bakefile/task"
      When I execute "bake task more work?"
      Then the task should have executed with arguments "more work?"
+
+  Scenario: attempted execution of non executable
+    Given the file "Bakefile/file"
+     When I execute "bake file"
+     Then I get the error:
+          """
+          -bake: file: not executable
+          """
