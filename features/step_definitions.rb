@@ -22,7 +22,8 @@ Given /^the file "([^ ]*)"$/ do |file|
 end
 
 Given /^the task "([^ ]*)"$/ do |file|
-  file(file, executable: true)
+  file(file, executable: true, contents: "#!/bin/bash
+                                          echo 'Work completed!' $@")
 end
 
 Given 'the task "$task" with contents "$contents"' do |task, contents|
@@ -47,8 +48,20 @@ When 'I execute "bake$args"' do |args|
   cmd "#{PROJ_DIR}/bin/bake #{args}"
 end
 
-Then 'I see on stdout:' do |string|
+def expect_stdout(string)
   expect(last_cmd.exitstatus) == 0
   expect(last_cmd.stderr.chomp) == ''
   expect(last_cmd.stdout.chomp) == string
+end
+
+Then 'I see on stdout:' do |string|
+  expect_stdout(string)
+end
+
+Then 'the task should have executed' do
+  expect_stdout('Work completed!')
+end
+
+Then 'the task should have executed with arguments "$args"' do |args|
+  expect_stdout("Work completed! #{args}")
 end
