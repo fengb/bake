@@ -57,8 +57,7 @@ fi
 
 file=`taskfile $1`
 if [ ! -f "$file" ]; then
-  echo "Task '$1' not found." >&2
-  help
+  echo "-bake: $1: does not exist" >&2
   exit 1
 elif [ ! -x "$file" ]; then
   echo "-bake: $1: not executable" >&2

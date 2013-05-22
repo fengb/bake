@@ -5,7 +5,7 @@ Feature: command-line help
   Scenario: simple task
     Given the task "Bakefile/task" with contents "### Some feature"
      When I execute "bake"
-     Then I see on stdout:
+     Then I see on output:
           """
           task ## Some feature
           """
@@ -13,7 +13,7 @@ Feature: command-line help
   Scenario: task with no description
     Given the task "Bakefile/task"
      When I execute "bake"
-     Then I see on stdout:
+     Then I see on output:
           """
           task
           """
@@ -21,7 +21,7 @@ Feature: command-line help
   Scenario: task with no description
     Given the file "Bakefile/file"
      When I execute "bake"
-     Then I see on stdout:
+     Then I see on output:
           """
           file !! not executable
           """
@@ -36,7 +36,7 @@ Feature: command-line help
           rm -rf /
           """
      When I execute "bake"
-     Then I see on stdout:
+     Then I see on output:
           """
           task ## Cleans stuff
           """
@@ -50,7 +50,7 @@ Feature: command-line help
           bake cake
           """
      When I execute "bake"
-     Then I see on stdout:
+     Then I see on output:
           """
           task -> pie cake
           """
@@ -61,7 +61,7 @@ Feature: command-line help
           | Bakefile/task  | No comment |
           | Bakefile/task2 | ### Second |
      When I execute "bake"
-     Then I see on stdout:
+     Then I see on output:
           """
           task
           task2 ## Second
@@ -72,7 +72,7 @@ Feature: command-line help
       And the directory "lib"
      When I am in the "lib" directory
       And I execute "bake"
-     Then I see on stdout:
+     Then I see on output:
           """
           task
           """

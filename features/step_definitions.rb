@@ -48,25 +48,25 @@ When 'I execute "bake$args"' do |args|
   cmd "#{PROJ_DIR}/bin/bake #{args}"
 end
 
-def expect_stdout(string)
-  expect(last_cmd.exitstatus) == 0
+def expect_output(string)
   expect(last_cmd.stderr.chomp) == ''
   expect(last_cmd.stdout.chomp) == string
+  expect(last_cmd.exitstatus) == 0
 end
 
-Then 'I see on stdout:' do |string|
-  expect_stdout(string)
+Then 'I see on output:' do |string|
+  expect_output(string)
 end
 
 Then 'I get the error:' do |string|
-  expect(last_cmd.exitstatus) != 0
   expect(last_cmd.stderr.chomp) == string
+  expect(last_cmd.exitstatus) != 0
 end
 
 Then 'the task should have executed' do
-  expect_stdout('Work completed!')
+  expect_output('Work completed!')
 end
 
 Then 'the task should have executed with arguments "$args"' do |args|
-  expect_stdout("Work completed! #{args}")
+  expect_output("Work completed! #{args}")
 end
