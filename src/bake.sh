@@ -18,9 +18,7 @@ taskname() {
 
 desc() {
   file=`taskfile $task`
-  if [ -L "$file" ]; then
-    file $file
-  elif [ ! -x "$file" ]; then
+  if [ ! -x "$file" ]; then
     echo "!! not executable"
   elif grep -q '^bake' "$file"; then
     echo -n "-> "
