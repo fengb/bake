@@ -26,7 +26,7 @@ desc() {
     echo -n "-> "
     sed -e '/^bake/!d' -e 's/^bake *//' "$file" | tr "\n" ' ' | sed 's/ *$//'
   else
-    sed -e '/###/!d' -e 's/^### */# /' "$file"
+    sed -e '/###/!d' -e 's/^### */## /' "$file"
   fi
 }
 

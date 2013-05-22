@@ -7,7 +7,7 @@ Feature: command-line help
      When I execute "bake"
      Then I see on stdout:
           """
-          task # Some feature
+          task ## Some feature
           """
 
   Scenario: task with no description
@@ -38,7 +38,7 @@ Feature: command-line help
      When I execute "bake"
      Then I see on stdout:
           """
-          task # Cleans stuff
+          task ## Cleans stuff
           """
 
   Scenario: super task
@@ -64,7 +64,7 @@ Feature: command-line help
      Then I see on stdout:
           """
           task
-          task2 # Second
+          task2 ## Second
           """
 
   Scenario: tasks located above the current directory
