@@ -73,8 +73,7 @@ end
 
 def expect_capture(capture)
   expect(last_cmd.stderr.chomp) == ''
-  expect(last_cmd.stdout.lines.to_a[0]) =~ /^Baking '.*'$/
-  expect(last_cmd.stdout.lines.to_a[1].chomp) == capture
+  expect(last_cmd.stdout.lines.to_a.last.chomp) == capture
   expect(last_cmd.exitstatus) == 0
 end
 

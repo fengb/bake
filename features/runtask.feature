@@ -38,7 +38,7 @@ Feature: running tasks
           #!/bin/bash
           bake captor
           """
-     When I execute "bake captor"
+     When I execute "bake initiator"
      Then the capture task should have executed
 
   Scenario: fuzzy match
