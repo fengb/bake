@@ -22,6 +22,9 @@ desc() {
     file $file
   elif [ ! -x "$file" ]; then
     echo "!! not executable"
+  elif grep -q '^bake' "$file"; then
+    echo -n "-> "
+    sed -e '/^bake/!d' -e 's/^bake *//' "$file" | tr "\n" ' ' | sed 's/ *$//'
   else
     sed -e '/###/!d' -e 's/^### */# /' "$file"
   fi
@@ -39,7 +42,7 @@ help() {
   for task in $tasks; do
     desc=`desc "$task"`
     if [ -n "$desc" ]; then
-      printf "%-${maxlength}s %s" "$task" "$desc"
+      printf "%-${maxlength}s %s\n" "$task" "`desc "$task"`"
     else
       echo "$task"
     fi

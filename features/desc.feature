@@ -41,6 +41,20 @@ Feature: command-line help
           task # Cleans stuff
           """
 
+  Scenario: super task
+    Given the task "Bakefile/task" with contents:
+          """
+          #!/bin/bash
+
+          bake pie
+          bake cake
+          """
+     When I execute "bake"
+     Then I see on stdout:
+          """
+          task -> pie cake
+          """
+
   Scenario: multiple tasks
     Given the following tasks:
           | path           | contents   |
