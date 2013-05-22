@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+$BAKE test/bin
+$BAKE test/dist
