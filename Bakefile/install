@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+$BAKE build
+cp dist/bake.min ~/bin/bake
