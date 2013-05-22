@@ -12,6 +12,11 @@ Feature: running tasks
      When I execute "bake task more work?"
      Then the capture task should have executed with arguments "more work?"
 
+  Scenario: execution without extension
+    Given the capture task "Bakefile/task.bash"
+     When I execute "bake task"
+     Then the capture task should have executed
+
   Scenario: task is nonexistent
      When I execute "bake nonexistent"
      Then I get the error "-bake: nonexistent: does not exist"

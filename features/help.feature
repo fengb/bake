@@ -3,19 +3,24 @@ Feature: command-line help
   I want to obtain simple descriptions
 
   Scenario: simple task
+    Given the task "Bakefile/task"
+     When I execute "bake"
+     Then I see on the output "task"
+
+  Scenario: task with description
     Given the task "Bakefile/task" with contents "### Some feature"
      When I execute "bake"
      Then I see on the output "task ## Some feature"
 
   Scenario: task with no description
-    Given the task "Bakefile/task"
-     When I execute "bake"
-     Then I see on the output "task"
-
-  Scenario: task with no description
     Given the file "Bakefile/file"
      When I execute "bake"
      Then I see on the output "file !! not executable"
+
+  Scenario: task with an extension
+    Given the task "Bakefile/task.ext"
+     When I execute "bake"
+     Then I see on the output "task"
 
   Scenario: multi-line task
     Given the task "Bakefile/task" with contents:

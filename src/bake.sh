@@ -7,12 +7,17 @@ taskdir=Bakefile
 
 
 taskfile() {
-  echo $1 | sed -e "s;^$taskdir/;;" -e "s;^;$taskdir/;;"
+  file=`sed -e "s;^$taskdir/;;" -e "s;^;$taskdir/;;" <<<$1`
+  if [ -e "$file" ]; then
+    echo "$file"
+  else
+    echo "$file".*
+  fi
 }
 
 
 taskname() {
-  sed "s;^$taskdir/;;"
+  sed -e "s;^$taskdir/;;" -e "s;\.[^/]*$;;"
 }
 
 
