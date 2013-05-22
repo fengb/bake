@@ -1,4 +1,4 @@
 language: ruby
-script: cucumber
+script: bin/bake test/all
 rvm:
 - 1.9.3
