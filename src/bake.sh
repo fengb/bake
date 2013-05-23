@@ -30,9 +30,9 @@ desc() {
   file=`taskfile $task`
   if [ ! -x "$file" ]; then
     echo "!!  not executable"
-  elif grep -q '^$BAKE' "$file"; then
+  elif grep -q '^ *$BAKE' "$file"; then
     echo -n "->  "
-    sed -e '/^$BAKE/!d' -e 's;^$BAKE *\([^ ]*\).*$;\1;' "$file" | tr "\n" ' ' | sed 's/ *$//'
+    sed -e '/^ *$BAKE/!d' -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' "$file" | tr "\n" ' ' | sed 's/ *$//'
   else
     sed -e '/###/!d' -e 's/^### */##  /' "$file"
   fi
