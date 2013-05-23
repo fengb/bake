@@ -25,12 +25,12 @@ taskname() {
 desc() {
   file=`taskfile $task`
   if [ ! -x "$file" ]; then
-    echo "!! not executable"
+    echo "!!  not executable"
   elif grep -q '^$BAKE' "$file"; then
-    echo -n "-> "
+    echo -n "->  "
     sed -e '/^$BAKE/!d' -e 's;^$BAKE *\([^ ]*\).*$;\1;' "$file" | tr "\n" ' ' | sed 's/ *$//'
   else
-    sed -e '/###/!d' -e 's/^### */## /' "$file"
+    sed -e '/###/!d' -e 's/^### */##  /' "$file"
   fi
 }
 
@@ -41,7 +41,7 @@ help() {
   for task in $tasks; do
     desc=`desc "$task"`
     if [ -n "$desc" ]; then
-      printf "%-${maxlength}s %s\n" "$task" "`desc "$task"`"
+      printf "%-${maxlength}s  %s\n" "$task" "`desc "$task"`"
     else
       echo "$task"
     fi

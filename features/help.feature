@@ -10,12 +10,12 @@ Feature: command-line help
   Scenario: task with description
     Given the task "Bakefile/task" with contents "### Some feature"
      When I execute "bake"
-     Then I see on the output "task ## Some feature"
+     Then I see on the output "task  ##  Some feature"
 
   Scenario: task with no description
     Given the file "Bakefile/file"
      When I execute "bake"
-     Then I see on the output "file !! not executable"
+     Then I see on the output "file  !!  not executable"
 
   Scenario: task with an extension
     Given the task "Bakefile/task.ext"
@@ -32,7 +32,7 @@ Feature: command-line help
           rm -rf /
           """
      When I execute "bake"
-     Then I see on the output "task ## Cleans stuff"
+     Then I see on the output "task  ##  Cleans stuff"
 
   Scenario: super task
     Given the task "Bakefile/task" with contents:
@@ -43,7 +43,7 @@ Feature: command-line help
           $BAKE cake 2
           """
      When I execute "bake"
-     Then I see on the output "task -> pie cake"
+     Then I see on the output "task  ->  pie cake"
 
   Scenario: multiple tasks
     Given the following tasks:
@@ -54,7 +54,7 @@ Feature: command-line help
      Then I see on the output:
           """
           task
-          task2 ## Second
+          task2  ##  Second
           """
 
   Scenario: tasks located above the current directory
