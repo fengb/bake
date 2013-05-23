@@ -54,7 +54,8 @@ end
 
 def expect_output(string)
   expect(last_cmd.stderr.chomp) == ''
-  expect(last_cmd.stdout.chomp) == string
+  stdout = last_cmd.stdout.chomp.gsub(/ *$/, '')
+  expect(stdout) == string
   expect(last_cmd.exitstatus) == 0
 end
 
