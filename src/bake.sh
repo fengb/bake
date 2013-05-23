@@ -7,7 +7,9 @@ taskdir=Bakefile
 
 
 taskfile() {
-  if [ -e "$taskdir/$1" ]; then
+  if [ -d "$taskdir/$1" ]; then
+    echo "$taskdir/$1/_"
+  elif [ -e "$taskdir/$1" ]; then
     echo "$taskdir/$1"
   elif [[ "$1" == */* ]]; then
     echo "$taskdir/$1".*
@@ -18,7 +20,9 @@ taskfile() {
 
 
 taskname() {
-  sed -e "s;^$taskdir/;;" -e "s;\.[^/]*$;;"
+  delete_extension="s;\.[^/]*$;;"
+  convert_default_task="s;/_;;"
+  sed -e "s;^$taskdir/;;" -e "$delete_extension" -e $convert_default_task
 }
 
 

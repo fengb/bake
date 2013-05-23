@@ -17,6 +17,11 @@ Feature: command-line help
      When I execute "bake"
      Then I see on the output "file  !!  not executable"
 
+  Scenario: directory default task
+    Given the task "Bakefile/dir/_"
+     When I execute "bake"
+     Then I see on the output "dir"
+
   Scenario: task with an extension
     Given the task "Bakefile/task.ext"
      When I execute "bake"
