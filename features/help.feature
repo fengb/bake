@@ -12,7 +12,7 @@ Feature: command-line help
      When I execute "bake"
      Then I see on the output "task  ##  Some feature"
 
-  Scenario: task with no description
+  Scenario: non-executable file
     Given the file "Bakefile/file"
      When I execute "bake"
      Then I see on the output "file  !!  not executable"
