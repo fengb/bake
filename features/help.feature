@@ -17,6 +17,11 @@ Feature: command-line help
        When I execute "bake"
        Then I see on the output "file  !!  not executable"
 
+  Scenario: non-executable file explicitly marked as not bake
+      Given the file "Bakefile/file" with contents "==-==-=="
+       When I execute "bake"
+       Then I see on the output ""
+
   Scenario: directory default task
       Given the task "Bakefile/dir/_"
        When I execute "bake"

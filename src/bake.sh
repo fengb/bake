@@ -40,7 +40,7 @@ desc() {
 
 
 help() {
-  tasks=`find $taskdir -type f -or -type l | sort | taskname`
+  tasks=`grep --recursive --files-without-match ==-==-== "$taskdir"| sort | taskname`
   maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`
   for task in $tasks; do
     printf "%-${maxlength}s  %s\n" "$task" "`desc "$task"`"

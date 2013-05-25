@@ -30,6 +30,10 @@ Given 'the capture task "$task"' do |task|
                                           echo 'Work completed!' $@")
 end
 
+Given 'the file "$task" with contents "$contents"' do |task, contents|
+  file(task, contents: contents)
+end
+
 Given 'the task "$task" with contents "$contents"' do |task, contents|
   file(task, executable: true, contents: contents)
 end
