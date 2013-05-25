@@ -54,7 +54,7 @@ while [ ! -d $taskdir ]; do
 done
 
 
-if [ -z $1 ]; then
+if [ "$1" = "-h" ]; then
   help
   exit
 fi

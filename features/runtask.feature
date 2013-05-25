@@ -12,7 +12,12 @@ Feature: running tasks
        When I execute "bake task"
        Then the capture task should have executed
 
-  Scenario: captured directory default execution
+  Scenario: default execution (no arguments)
+      Given the capture task "Bakefile/_"
+       When I execute "bake"
+       Then the capture task should have executed
+
+  Scenario: directory default execution
       Given the capture task "Bakefile/dir/_"
        When I execute "bake dir"
        Then the capture task should have executed

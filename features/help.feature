@@ -4,32 +4,32 @@ Feature: command-line help
 
   Scenario: simple task
       Given the task "Bakefile/task"
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output "task"
 
   Scenario: task with description
       Given the task "Bakefile/task" with contents "### Some feature"
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output "task  ##  Some feature"
 
   Scenario: non-executable file
       Given the file "Bakefile/file"
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output "file  !!  not executable"
 
   Scenario: non-executable file explicitly marked as not bake
       Given the file "Bakefile/file" with contents "==-==-=="
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output ""
 
   Scenario: directory default task
       Given the task "Bakefile/dir/_"
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output "dir"
 
   Scenario: task with an extension
       Given the task "Bakefile/task.ext"
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output "task"
 
   Scenario: multi-line task
@@ -41,7 +41,7 @@ Feature: command-line help
 
             rm -rf /
             """
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output "task  ##  Cleans stuff"
 
   Scenario: super task
@@ -52,7 +52,7 @@ Feature: command-line help
                 $BAKE pie 1
                 $BAKE cake 2
             """
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output "task  ->  pie cake"
 
   Scenario: multiple tasks
@@ -60,7 +60,7 @@ Feature: command-line help
             | path           | contents   |
             | Bakefile/task  | No comment |
             | Bakefile/task2 | ### Second |
-       When I execute "bake"
+       When I execute "bake -h"
        Then I see on the output:
             """
             task
@@ -71,5 +71,5 @@ Feature: command-line help
       Given the task "Bakefile/task"
         And the directory "lib"
        When I am in the "lib" directory
-        And I execute "bake"
+        And I execute "bake -h"
        Then I see on the output "task"
