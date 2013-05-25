@@ -3,7 +3,7 @@ require 'fileutils'
 
 def file(path, options={})
   contents = options.delete(:contents) || ''
-  executable = options.delete(:executable) || false
+  executable = options.delete(:type) == 'task'
 
   FileUtils.mkdir_p File.dirname(path)
   File.open(path, 'w') do |file|
@@ -17,35 +17,27 @@ Given 'the directory "$dir"' do |dir|
   FileUtils.mkdir_p(dir)
 end
 
-Given /^the file "([^ ]*)"$/ do |file|
-  file(file)
+Given /^the (file|task) "([^ ]*)"$/ do |type, path|
+  file(path, type: type)
 end
 
-Given /^the task "([^ ]*)"$/ do |task|
-  file(task, executable: true)
+Given /^the (file|task) "(.*)" with contents "(.*)"$/ do |type, path, contents|
+  file(path, type: type, contents: contents)
+end
+
+Given /^the (file|task) "(.*)" with contents:$/ do |type, task, contents|
+  file(task, type: type, contents: contents)
+end
+
+Given /^the following (file|task)s:$/ do |type, table|
+  table.rows.each do |(file, contents)|
+    file(file, type: type, contents: contents)
+  end
 end
 
 Given 'the capture task "$task"' do |task|
-  file(task, executable: true, contents: "#!/bin/bash
-                                          echo 'Work completed!' $@")
-end
-
-Given 'the file "$task" with contents "$contents"' do |task, contents|
-  file(task, contents: contents)
-end
-
-Given 'the task "$task" with contents "$contents"' do |task, contents|
-  file(task, executable: true, contents: contents)
-end
-
-Given 'the task "$task" with contents:' do |task, contents|
-  file(task, executable: true, contents: contents)
-end
-
-Given 'the following tasks:' do |table|
-  table.rows.each do |(file, contents)|
-    file(file, executable: true, contents: contents)
-  end
+  file(task, type: 'task', contents: "#!/bin/bash
+                                      echo 'Work completed!' $@")
 end
 
 When 'I am in the "$dir" directory' do |dir|
