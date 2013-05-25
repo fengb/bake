@@ -23,7 +23,7 @@ Feature: command-line help
        Then I see on the output ""
 
   Scenario: directory default task
-      Given the task "Bakefile/dir/_"
+      Given the task "Bakefile/dir/{default}"
        When I execute "bake -h"
        Then I see on the output "dir"
 
