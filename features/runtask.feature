@@ -64,3 +64,9 @@ Feature: running tasks
        When I execute "bake deeper"
        Then the capture task should have executed
         And I see on stdout "Baking 'we/need/to/go/deeper'"
+
+  Scenario: ambiguous match
+      Given the task "Bakefile/first/ambi"
+        And the task "Bakefile/next/ambi"
+       When I execute "bake ambi"
+       Then I get the error "-bake: ambi: ambiguous command"

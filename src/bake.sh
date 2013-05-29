@@ -5,6 +5,8 @@
 
 taskdir=Bakefile
 default={default}
+newline='
+'
 
 
 taskfile() {
@@ -62,7 +64,10 @@ if [ "$1" = "-h" ]; then
 fi
 
 file=`taskfile $1`
-if [ ! -f "$file" ]; then
+if [[ "$file" == *$newline* ]]; then
+  echo "-bake: $1: ambiguous command" >&2
+  exit 1
+elif [ ! -f "$file" ]; then
   if [ $# -eq 0 ]; then
     echo "-bake: $default: not defined" >&2
     help
