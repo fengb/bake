@@ -18,6 +18,7 @@ Feature: running tasks
       Given the capture task "Bakefile/{default}"
        When I execute "bake"
        Then the capture task should have executed
+        And I see on stdout "Baking '{default}'"
 
   Scenario: directory execution
       Given the capture task "Bakefile/dir/{default}"

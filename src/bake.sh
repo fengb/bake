@@ -4,11 +4,14 @@
 
 
 taskdir=Bakefile
+default={default}
 
 
 taskfile() {
-  if [ -d "$taskdir/$1" ]; then
-    echo "$taskdir/$1/{default}"
+  if [ -z "$1" ]; then
+    echo "$taskdir/$default"
+  elif [ -d "$taskdir/$1" ]; then
+    echo "$taskdir/$1/$default"
   elif [ -e "$taskdir/$1" ]; then
     echo "$taskdir/$1"
   elif [[ "$1" == */* ]]; then
@@ -21,8 +24,8 @@ taskfile() {
 
 taskname() {
   delete_extension="s;\.[^/]*$;;"
-  convert_default_task="s;/{default};;"
-  sed -e "s;^$taskdir/;;" -e "$delete_extension" -e $convert_default_task
+  convert_directory_task="s;/$default;;"
+  sed -e "s;^$taskdir/;;" -e "$delete_extension" -e $convert_directory_task
 }
 
 
@@ -61,7 +64,7 @@ fi
 file=`taskfile $1`
 if [ ! -f "$file" ]; then
   if [ $# -eq 0 ]; then
-    echo "-bake: {default}: not defined" >&2
+    echo "-bake: $default: not defined" >&2
     help
     exit
   fi
