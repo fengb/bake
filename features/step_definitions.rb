@@ -48,19 +48,27 @@ When 'I execute "bake$args"' do |args|
   cmd "#{PROJ_DIR}/#{BAKE_EXEC} #{args}"
 end
 
-def expect_output(string)
-  expect(last_cmd.stderr.chomp) == ''
-  stdout = last_cmd.stdout.chomp.gsub(/ *$/, '')
-  expect(stdout) == string
-  expect(last_cmd.exitstatus) == 0
+def expect_output(stream, string)
+  case stream
+    when 'stderr'
+      @expected_stderr = last_cmd.stderr.chomp.gsub(/ *$/, '')
+      expect(@expected_stderr) == string
+    when 'stdout'
+      expect(last_cmd.stderr.strip) == '' unless @expected_stderr
+      stdout = last_cmd.stdout.chomp.gsub(/ *$/, '')
+      expect(stdout) == string
+      expect(last_cmd.exitstatus) == 0
+    else
+      raise 'wtf stream?'
+  end
 end
 
-Then 'I see on the output "$output"' do |output|
-  expect_output(output)
+Then /^I see on (stderr|stdout) "(.*)"$/ do |stream, output|
+  expect_output(stream, output)
 end
 
-Then 'I see on the output:' do |output|
-  expect_output(output)
+Then /^I see on (stderr|stdout):$/ do |stream, output|
+  expect_output(stream, output)
 end
 
 Then 'I get the error "$error"' do |error|

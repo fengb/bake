@@ -45,7 +45,6 @@ help() {
   for task in $tasks; do
     printf "%-${maxlength}s  %s\n" "$task" "`desc "$task"`"
   done
-  exit
 }
 
 
@@ -59,9 +58,14 @@ if [ "$1" = "-h" ]; then
   exit
 fi
 
-
 file=`taskfile $1`
 if [ ! -f "$file" ]; then
+  if [ $# -eq 0 ]; then
+    echo "-bake: {default}: not defined" >&2
+    help
+    exit
+  fi
+
   echo "-bake: $1: does not exist" >&2
   exit 1
 elif [ ! -x "$file" ]; then

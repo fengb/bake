@@ -5,19 +5,25 @@ Feature: running tasks
   Scenario: basic execution
       Given the task "Bakefile/task"
        When I execute "bake task"
-       Then I see on the output "Baking 'task'"
+       Then I see on stdout "Baking 'task'"
 
   Scenario: captured execution
       Given the capture task "Bakefile/task"
        When I execute "bake task"
        Then the capture task should have executed
 
-  Scenario: default execution (no arguments)
+  Scenario: no arguments with no {default} task
+      Given the task "Bakefile/task"
+       When I execute "bake"
+       Then I see on stderr "-bake: {default}: not defined"
+        And I see on stdout "task"
+
+  Scenario: {default} task
       Given the capture task "Bakefile/{default}"
        When I execute "bake"
        Then the capture task should have executed
 
-  Scenario: directory default execution
+  Scenario: directory execution
       Given the capture task "Bakefile/dir/{default}"
        When I execute "bake dir"
        Then the capture task should have executed
