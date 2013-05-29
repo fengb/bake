@@ -2,6 +2,10 @@ Feature: running tasks
   In order to run defined tasks
   I want to execute commands
 
+  Scenario: no Bakefile
+       When I execute "bake"
+       Then I see on stderr "-bake: no Bakefile found"
+
   Scenario: captured execution
       Given the capture task "Bakefile/task"
        When I execute "bake task"
@@ -36,6 +40,7 @@ Feature: running tasks
        Then the capture task should have executed
 
   Scenario: task is nonexistent
+      Given the directory "Bakefile"
        When I execute "bake nonexistent"
        Then I get the error "-bake: nonexistent: does not exist"
 

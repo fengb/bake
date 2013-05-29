@@ -55,6 +55,10 @@ help() {
 
 while [ ! -d $taskdir ]; do
   cd ..
+  if [ "$PWD" = "$OLDPWD" ]; then
+    echo "-bake: no $taskdir found" >&2
+    exit 1
+  fi
 done
 
 

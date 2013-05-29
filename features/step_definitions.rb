@@ -36,7 +36,7 @@ Given /^the following (file|task)s:$/ do |type, table|
 end
 
 When 'I am in the "$dir" directory' do |dir|
-  FileUtils.cd File.join(WORK_DIR, dir)
+  FileUtils.cd File.join(@work_dir, dir)
 end
 
 When 'I execute "bake$args"' do |args|
