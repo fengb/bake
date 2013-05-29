@@ -2,15 +2,11 @@ Feature: running tasks
   In order to run defined tasks
   I want to execute commands
 
-  Scenario: basic execution
-      Given the task "Bakefile/task"
-       When I execute "bake task"
-       Then I see on stdout "Baking 'task'"
-
   Scenario: captured execution
       Given the capture task "Bakefile/task"
        When I execute "bake task"
        Then the capture task should have executed
+        And I see on stdout "Baking 'task'"
 
   Scenario: no arguments with no {default} task
       Given the task "Bakefile/task"
@@ -56,8 +52,14 @@ Feature: running tasks
             """
        When I execute "bake initiator"
        Then the capture task should have executed
+        And I see on stdout:
+            """
+            Baking 'initiator'
+            Baking 'captor'
+            """
 
   Scenario: fuzzy match
       Given the capture task "Bakefile/we/need/to/go/deeper"
        When I execute "bake deeper"
        Then the capture task should have executed
+        And I see on stdout "Baking 'we/need/to/go/deeper'"

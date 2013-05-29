@@ -35,11 +35,6 @@ Given /^the following (file|task)s:$/ do |type, table|
   end
 end
 
-Given 'the capture task "$task"' do |task|
-  file(task, type: 'task', contents: "#!/bin/bash
-                                      echo 'Work completed!' $@")
-end
-
 When 'I am in the "$dir" directory' do |dir|
   FileUtils.cd File.join(WORK_DIR, dir)
 end
@@ -57,7 +52,6 @@ def expect_output(stream, string)
       expect(last_cmd.stderr.strip) == '' unless @expected_stderr
       stdout = last_cmd.stdout.chomp.gsub(/ *$/, '')
       expect(stdout) == string
-      expect(last_cmd.exitstatus) == 0
     else
       raise 'wtf stream?'
   end
@@ -76,16 +70,21 @@ Then 'I get the error "$error"' do |error|
   expect(last_cmd.exitstatus) != 0
 end
 
-def expect_capture(capture)
-  expect(last_cmd.stderr.chomp) == ''
-  expect(last_cmd.stdout.lines.to_a.last.chomp) == capture
-  expect(last_cmd.exitstatus) == 0
+def expect_capture(args='')
+  expect(last_cmd.stderr.chomp) == args
+  expect(last_cmd.exitstatus) == 42
+end
+
+Given 'the capture task "$task"' do |task|
+  file(task, type: 'task', contents: %Q{#!/bin/bash
+                                        [ "$#" -ne 0 ] && echo "$@" >&2
+                                        exit 42})
 end
 
 Then 'the capture task should have executed' do
-  expect_capture('Work completed!')
+  expect_capture
 end
 
 Then 'the capture task should have executed with arguments "$args"' do |args|
-  expect_capture("Work completed! #{args}")
+  expect_capture(args)
 end
