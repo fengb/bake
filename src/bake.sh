@@ -53,7 +53,33 @@ help() {
 }
 
 
-while [ ! -d $taskdir ]; do
+while getopts "hb:" opt; do
+  case $opt in
+    b)
+      if [ ! -d "$OPTARG" ]; then
+        echo "-bake: $OPTARG: taskdir not found" >&2
+        exit 1
+      fi
+      taskdir=`basename "$OPTARG"`
+      cd `dirname "$OPTARG"`
+      ;;
+    h)
+      cmd=help
+      ;;
+    \?)
+      echo "wtf?" >&2
+      exit 1
+      ;;
+    :)
+      echo "Arg?" >&2
+      exit 1
+      ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+
+while [ ! -d "$taskdir" ]; do
   cd ..
   if [ "$PWD" = "$OLDPWD" ]; then
     echo "-bake: no $taskdir found" >&2
@@ -62,30 +88,31 @@ while [ ! -d $taskdir ]; do
 done
 
 
-if [ "$1" = "-h" ]; then
-  help
+if [ -n "$cmd" ]; then
+  $cmd
   exit
 fi
 
+
 file=`taskfile $1`
 if [[ "$file" == *$newline* ]]; then
-  echo "-bake: $1: ambiguous command" >&2
+  echo "-bake: $1: task ambiguous" >&2
   exit 1
 elif [ ! -f "$file" ]; then
   if [ $# -eq 0 ]; then
-    echo "-bake: $default: not defined" >&2
+    echo "-bake: $default: task not defined" >&2
     help
     exit
   fi
 
-  echo "-bake: $1: does not exist" >&2
+  echo "-bake: $1: task does not exist" >&2
   exit 1
 elif [ ! -x "$file" ]; then
-  echo "-bake: $1: not executable" >&2
+  echo "-bake: $1: task not executable" >&2
   exit 1
 fi
 
 
 shift
 echo Baking "'`taskname <<<$file`'"
-BAKE="$0" "$file" $@
+BAKE="$0" exec "$file" $@

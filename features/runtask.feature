@@ -15,7 +15,7 @@ Feature: running tasks
   Scenario: no arguments with no {default} task
       Given the task "Bakefile/task"
        When I execute "bake"
-       Then I see on stderr "-bake: {default}: not defined"
+       Then I see on stderr "-bake: {default}: task not defined"
         And I see on stdout "task"
 
   Scenario: {default} task
@@ -42,12 +42,12 @@ Feature: running tasks
   Scenario: task is nonexistent
       Given the directory "Bakefile"
        When I execute "bake nonexistent"
-       Then I get the error "-bake: nonexistent: does not exist"
+       Then I get the error "-bake: nonexistent: task does not exist"
 
   Scenario: attempted execution of non executable
       Given the file "Bakefile/file"
        When I execute "bake file"
-       Then I get the error "-bake: file: not executable"
+       Then I get the error "-bake: file: task not executable"
 
   Scenario: bakeception
       Given the capture task "Bakefile/captor"
@@ -74,4 +74,4 @@ Feature: running tasks
       Given the task "Bakefile/first/ambi"
         And the task "Bakefile/next/ambi"
        When I execute "bake ambi"
-       Then I get the error "-bake: ambi: ambiguous command"
+       Then I get the error "-bake: ambi: task ambiguous"
