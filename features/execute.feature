@@ -1,6 +1,6 @@
-Feature: running tasks
-  In order to run defined tasks
-  I want to execute commands
+Feature: executing tasks
+  In order to use defined tasks
+  I want to actually execute them
 
   Scenario: no Bakefile
        When I execute "bake"
