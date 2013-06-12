@@ -29,8 +29,9 @@ Given /^the (file|task) "(.*)" with contents:$/ do |type, task, contents|
   file(task, type: type, contents: contents)
 end
 
-Given /^the following (file|task)s:$/ do |type, table|
-  table.rows.each do |(file, contents)|
+Given /^the (file|task)s:$/ do |type, table|
+  table.raw.each do |(file, contents)|
+    contents = CAPTURE_CONTENTS if contents == '==capture=='
     file(file, type: type, contents: contents)
   end
 end
@@ -75,10 +76,10 @@ def expect_capture(args='')
   expect(last_cmd.exitstatus) == 42
 end
 
+CAPTURE_CONTENTS = '[ "$#" -ne 0 ] && echo "$@" >&2; exit 42'
+
 Given 'the capture task "$task"' do |task|
-  file(task, type: 'task', contents: %Q{#!/bin/bash
-                                        [ "$#" -ne 0 ] && echo "$@" >&2
-                                        exit 42})
+  file(task, type: 'task', contents: CAPTURE_CONTENTS)
 end
 
 Then 'the capture task should have executed' do

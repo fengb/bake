@@ -50,12 +50,9 @@ Feature: executing tasks
        Then I get the error "-bake: file: task not executable"
 
   Scenario: bakeception
-      Given the capture task "Bakefile/captor"
-        And the task "Bakefile/initiator" with contents:
-            """
-            #!/bin/bash
-            $BAKE captor
-            """
+      Given the tasks:
+            | Bakefile/initiator | $BAKE captor |
+            | Bakefile/captor    | ==capture==  |
        When I execute "bake initiator"
        Then the capture task should have executed
         And I see on stdout:
@@ -71,7 +68,8 @@ Feature: executing tasks
         And I see on stdout "Baking 'we/need/to/go/deeper'"
 
   Scenario: ambiguous match
-      Given the task "Bakefile/first/ambi"
-        And the task "Bakefile/next/ambi"
+      Given the tasks:
+            | Bakefile/first/ambi |
+            | Bakefile/next/ambi  |
        When I execute "bake ambi"
        Then I get the error "-bake: ambi: task ambiguous"

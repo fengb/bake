@@ -35,8 +35,6 @@ Feature: command-line help
   Scenario: multi-line task
       Given the task "Bakefile/task" with contents:
             """
-            #!/bin/bash
-
             ### Cleans stuff
 
             rm -rf /
@@ -47,8 +45,6 @@ Feature: command-line help
   Scenario: super task
       Given the task "Bakefile/task" with contents:
             """
-            #!/bin/bash
-
                 $BAKE pie 1
                 $BAKE cake 2
             """
@@ -56,8 +52,7 @@ Feature: command-line help
        Then I see on stdout "task  ->  pie cake"
 
   Scenario: multiple tasks
-      Given the following tasks:
-            | path           | contents   |
+      Given the tasks:
             | Bakefile/task  | No comment |
             | Bakefile/task2 | ### Second |
        When I execute "bake -h"
