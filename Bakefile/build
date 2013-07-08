@@ -1,10 +1,6 @@
 #!/bin/bash
 
 
-minify() {
-  sed -e 's/^ *//' -e 's/^#.*//' -e '/^$/d' $1
-}
-
 mkdir -p dist
 
 rm -f dist/bake
@@ -13,7 +9,3 @@ find src -type f | while read file; do
   sed -e '/^#!/d' "$file" >>dist/bake
 done
 chmod +x dist/bake
-
-echo "#!/bin/bash" >dist/bake.min
-minify dist/bake >> dist/bake.min
-chmod +x dist/bake.min

@@ -3,4 +3,3 @@
 
 $BAKE build
 bundle exec cucumber BAKE_EXEC=dist/bake
-bundle exec cucumber BAKE_EXEC=dist/bake.min
