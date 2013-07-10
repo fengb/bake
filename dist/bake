@@ -1,5 +1,5 @@
 #!/bin/bash
-# bake - Bash Make - v0.1.0 - https://github.com/fengb/bake
+# bake - Bash Make - v0.1.1 - https://github.com/fengb/bake
 
 
 taskdir=Bakefile
@@ -114,4 +114,4 @@ fi
 
 shift
 echo Baking "'`taskname <<<$file`'"
-BAKE="$0" exec "$file" $@
+BAKE="bash $0" exec "$file" $@
