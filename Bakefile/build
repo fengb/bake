@@ -6,6 +6,6 @@ mkdir -p dist
 rm -f dist/bake
 echo "#!/bin/bash" >dist/bake
 find src -type f | while read file; do
-  sed -e '/^#!/d' "$file" >>dist/bake
+  cat "$file" >>dist/bake
 done
 chmod +x dist/bake
