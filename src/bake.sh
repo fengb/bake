@@ -1,6 +1,3 @@
-# Bash Make  :P
-
-
 taskdir=Bakefile
 default={default}
 newline='

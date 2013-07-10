@@ -1,11 +1,16 @@
 #!/bin/bash
 
 
+outfile=dist/bake
 mkdir -p dist
 
-rm -f dist/bake
-echo "#!/bin/bash" >dist/bake
+echo "\
+#!/bin/bash
+# bake - Bash Make - v`cat VERSION` - https://github.com/fengb/bake
+
+" >$outfile
+
 find src -type f | while read file; do
-  cat "$file" >>dist/bake
+  cat "$file" >>$outfile
 done
-chmod +x dist/bake
+chmod +x $outfile
