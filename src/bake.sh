@@ -110,4 +110,4 @@ fi
 
 shift
 echo Baking "'`taskname <<<$file`'"
-BAKE="$0" exec "$file" $@
+BAKE="bash $0" exec "$file" $@
