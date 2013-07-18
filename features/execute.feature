@@ -12,6 +12,12 @@ Feature: executing tasks
        Then the capture task should have executed
         And I see on stdout "Baking 'task'"
 
+  Scenario: captured execution suppressing status
+      Given the capture task "Bakefile/task"
+       When I execute "bake -s task"
+       Then the capture task should have executed
+        And I see on stdout ""
+
   Scenario: no arguments with no {default} task
       Given the task "Bakefile/task"
        When I execute "bake"

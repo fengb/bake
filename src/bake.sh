@@ -1,3 +1,5 @@
+unset suppress
+
 taskdir=Bakefile
 default={default}
 newline='
@@ -48,8 +50,11 @@ help() {
 }
 
 
-while getopts "hb:" opt; do
+while getopts "shb:" opt; do
   case $opt in
+    s)
+      suppress=true
+      ;;
     b)
       if [ ! -d "$OPTARG" ]; then
         echo "-bake: $OPTARG: taskdir not found" >&2
@@ -109,5 +114,5 @@ fi
 
 
 shift
-echo Baking "'`taskname <<<$file`'"
+[[ -n "$suppress" ]] || echo Baking "'`taskname <<<$file`'"
 BAKE="bash $0" exec "$file" $@
