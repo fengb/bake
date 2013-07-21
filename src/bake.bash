@@ -7,17 +7,19 @@ newline='
 
 
 taskfile() {
-  if [ -z "$1" ]; then
-    echo "$taskdir/$default"
-  elif [ -d "$taskdir/$1" ]; then
-    echo "$taskdir/$1/$default"
-  elif [ -e "$taskdir/$1" ]; then
-    echo "$taskdir/$1"
-  elif [[ "$1" == */* ]]; then
-    echo "$taskdir/$1".*
-  else
-    find $taskdir -type f -name "$1" -or -name "$1.*" -or -path "*/$1/$default"
-  fi
+  while read task; do
+    if [ -z "$task" ]; then
+      echo "$taskdir/$default"
+    elif [ -d "$taskdir/$task" ]; then
+      echo "$taskdir/$task/$default"
+    elif [ -e "$taskdir/$task" ]; then
+      echo "$taskdir/$task"
+    elif [[ "$task" == */* ]]; then
+      echo "$taskdir/$task".*
+    else
+      find $taskdir -type f -name "$task" -or -name "$task.*" -or -path "*/$task/$default"
+    fi
+  done
 }
 
 
@@ -29,15 +31,16 @@ taskname() {
 
 
 desc() {
-  file=`taskfile $task`
-  if [ ! -x "$file" ]; then
-    echo "!!  not executable"
-  elif grep -q '^ *$BAKE' "$file"; then
-    echo -n "->  "
-    sed -e '/^ *$BAKE/!d' -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' "$file" | tr "\n" ' ' | sed 's/ *$//'
-  else
-    sed -e '/###/!d' -e 's/^### */##  /' "$file"
-  fi
+  while read file; do
+    if [ ! -x "$file" ]; then
+      echo "!!  not executable"
+    elif grep -q '^ *$BAKE' "$file"; then
+      echo -n "->  "
+      sed -e '/^ *$BAKE/!d' -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' "$file" | tr "\n" ' ' | sed 's/ *$//'
+    else
+      sed -e '/###/!d' -e 's/^### */##  /' "$file"
+    fi
+  done
 }
 
 
@@ -45,7 +48,7 @@ help() {
   tasks=`grep --recursive --files-without-match ==-==-== "$taskdir"| sort | taskname`
   maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`
   for task in $tasks; do
-    printf "%-${maxlength}s  %s\n" "$task" "`desc "$task"`"
+    printf "%-${maxlength}s  %s\n" "$task" "`taskfile <<<"$task" | desc`"
   done
 }
 
@@ -94,7 +97,7 @@ if [ -n "$cmd" ]; then
 fi
 
 
-file=`taskfile $1`
+file=`taskfile <<<"$1"`
 if [[ "$file" == *$newline* ]]; then
   echo "-bake: $1: task ambiguous" >&2
   exit 1
