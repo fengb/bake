@@ -73,6 +73,12 @@ Feature: executing tasks
        Then the capture task should have executed
         And I see on stdout "Baking 'we/need/to/go/deeper'"
 
+  Scenario: fuzzy match {default} task
+      Given the capture task "Bakefile/we/need/to/go/deeper/{default}"
+       When I execute "bake deeper"
+       Then the capture task should have executed
+        And I see on stdout "Baking 'we/need/to/go/deeper'"
+
   Scenario: ambiguous match
       Given the tasks:
             | Bakefile/first/ambi |

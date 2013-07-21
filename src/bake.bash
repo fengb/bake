@@ -16,7 +16,7 @@ taskfile() {
   elif [[ "$1" == */* ]]; then
     echo "$taskdir/$1".*
   else
-    find $taskdir -name "$1" -or -name "$1.*"
+    find $taskdir -type f -name "$1" -or -name "$1.*" -or -path "*/$1/$default"
   fi
 }
 
