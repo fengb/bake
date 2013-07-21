@@ -51,6 +51,11 @@ Feature: command-line help
        When I execute "bake -h"
        Then I see on stdout "task  ->  pie cake"
 
+  Scenario: chained one liner
+      Given the task "Bakefile/and" with contents "$BAKE one 1 && $BAKE two 2"
+       When I execute "bake -h"
+       Then I see on stdout "and  ->  one two"
+
   Scenario: multiple tasks
       Given the tasks:
             | Bakefile/task  | No comment |

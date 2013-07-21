@@ -36,7 +36,7 @@ desc() {
       echo "!!  not executable"
     elif grep -q '^ *$BAKE' "$file"; then
       echo -n "->  "
-      sed -e '/^ *$BAKE/!d' -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' "$file" | tr "\n" ' ' | sed 's/ *$//'
+      sed -e "s;&&;\\$newline;g" "$file" | sed -e '/^ *$BAKE/!d' -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' -e '/^$/d' | tr "\n" ' '
     else
       sed -e '/###/!d' -e 's/^### */##  /' "$file"
     fi
