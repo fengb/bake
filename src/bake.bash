@@ -37,7 +37,12 @@ desc() {
     elif grep -q '###' "$file"; then
       sed -e '/###/!d' -e 's/^### */##  /' "$file"
     else
-      deps=$(sed -e "s;&&;\\$newline;g" "$file" | sed -e '/^ *$BAKE/!d' -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' -e '/^$/d' | tr "\n" ' ')
+      deps=$(sed -e "s;&&;\\$newline;g" "$file"    \
+           | sed -e '/^ *$BAKE/!d'                 \
+                 -e '/^ *$BAKE *-s/d'              \
+                 -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' \
+                 -e '/^$/d'                        \
+           | tr "\n" ' ')
       if [ -n "$deps" ]; then
         echo -n "->  $deps"
       fi

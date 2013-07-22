@@ -42,7 +42,7 @@ Feature: command-line help
        When I execute "bake -h"
        Then I see on stdout "task  ##  Cleans stuff"
 
-  Scenario: super task
+  Scenario: dependent task
       Given the task "Bakefile/task" with contents:
             """
                 $BAKE pie 1
@@ -51,10 +51,15 @@ Feature: command-line help
        When I execute "bake -h"
        Then I see on stdout "task  ->  pie cake"
 
-  Scenario: chained one liner
+  Scenario: dependent one liner
       Given the task "Bakefile/and" with contents "$BAKE one 1 && $BAKE two 2"
        When I execute "bake -h"
        Then I see on stdout "and  ->  one two"
+
+  Scenario: secret dependency
+      Given the task "Bakefile/secret" with contents "$BAKE -s target"
+       When I execute "bake -h"
+       Then I see on stdout "secret"
 
   Scenario: multiple tasks
       Given the tasks:
