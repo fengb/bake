@@ -1,4 +1,4 @@
-unset suppress
+unset secret
 
 taskdir=Bakefile
 default={default}
@@ -34,11 +34,13 @@ desc() {
   while read file; do
     if [ ! -x "$file" ]; then
       echo "!!  not executable"
-    elif grep -q '^ *$BAKE' "$file"; then
-      echo -n "->  "
-      sed -e "s;&&;\\$newline;g" "$file" | sed -e '/^ *$BAKE/!d' -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' -e '/^$/d' | tr "\n" ' '
-    else
+    elif grep -q '###' "$file"; then
       sed -e '/###/!d' -e 's/^### */##  /' "$file"
+    else
+      deps=$(sed -e "s;&&;\\$newline;g" "$file" | sed -e '/^ *$BAKE/!d' -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' -e '/^$/d' | tr "\n" ' ')
+      if [ -n "$deps" ]; then
+        echo -n "->  $deps"
+      fi
     fi
   done
 }
@@ -56,7 +58,7 @@ help() {
 while getopts "shb:" opt; do
   case $opt in
     s)
-      suppress=true
+      secret=true
       ;;
     b)
       if [ ! -d "$OPTARG" ]; then
@@ -117,5 +119,5 @@ fi
 
 
 shift
-[[ -n "$suppress" ]] || echo Baking "'`taskname <<<$file`'"
+[[ -n "$secret" ]] || echo Baking "'`taskname <<<$file`'"
 BAKE="bash $0" exec "$file" $@
